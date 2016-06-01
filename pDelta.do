@@ -1,9 +1,9 @@
 
 set more off
-cd "/Users/JC/Box Sync/_relativeStability_--_jqc/data/"
+cd "USER/PATH"
 capture log using "pDelta/pdelta.smcl", replace
 
-use "_wide.dta",clear
+use "data.dta",clear
 quietly keep CASEID S*IMPULS
 
 * drop cases with any missing data so that only complete cases are analyzed
@@ -14,9 +14,9 @@ quietly drop if S0IMPULS==. | S1IMPULS==. | S2IMPULS==. | S3IMPULS==. | S4IMPULS
 * -------------------------
 * Christensen & Mendoza's RCI
 * where RCI = (t2-t1)/sdiff
-* note, numerator is simply the diff in score between two measurement periods
-* denominator is standard error of measurement (SEM) (not simply the stand error)
-* the SEM accounts for measurement error (i.e., alpha reliability)
+* note, numerator is the diff in score between two measurement periods
+* denominator is standard error of measurement (SEM), 
+* which accounts for measurement error (i.e., alpha reliability)
 * -------------------------
 
 * gen variables holding info needed for denominator
@@ -81,7 +81,6 @@ sum RCI*,d
 centile  RCI*, centile(2.5 97.5)
 
 * save data w/RCI values stored
-cd "/Users/JC/Box Sync/_relativeStability_--_jqc/data/pDelta"
 save "_pDeltaData.dta",replace
 
 
